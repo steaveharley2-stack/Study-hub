@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StudyHub \u2013 Learn Smarter</title>
+<title>StudyHub – Learn Smarter</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -28,7 +28,6 @@
     overflow-x: hidden;
   }
 
-  /* Grain texture overlay */
   body::before {
     content: '';
     position: fixed;
@@ -39,7 +38,6 @@
     opacity: 0.4;
   }
 
-  /* NAV */
   nav {
     display: flex;
     align-items: center;
@@ -82,7 +80,6 @@
   }
   .nav-cta:hover { background: var(--gold) !important; color: var(--ink) !important; }
 
-  /* HERO */
   .hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -106,4 +103,426 @@
     font-family: 'Playfair Display', serif;
     font-size: clamp(2.8rem, 5vw, 4.5rem);
     font-weight: 900;
-    line-height: 1.05
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 0.9rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold); color: var(--ink); transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 0.9rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .btn-ghost:hover { background: var(--cream); transform: translateY(-1px); }
+
+  .hero-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: floatIn 0.8s ease both;
+  }
+
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stat-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.4rem;
+    border: 1px solid var(--cream);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.09); }
+  .stat-card:first-child { grid-column: span 2; background: var(--ink); color: var(--paper); }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: var(--gold-light);
+  }
+  .stat-card:not(:first-child) .stat-num { color: var(--ink); }
+  .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+  .stat-card:first-child .stat-label { color: rgba(255,255,255,0.55); }
+  .stat-card:first-child .stat-desc { font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-top: 0.5rem; line-height: 1.5; }
+
+  .section {
+    padding: 4rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .see-all {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 1px;
+    transition: opacity 0.2s;
+  }
+  .see-all:hover { opacity: 0.7; }
+
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .subject-card {
+    background: var(--card-bg);
+    border: 1px solid var(--cream);
+    border-radius: 14px;
+    padding: 1.6rem 1.3rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .subject-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.09); border-color: var(--gold); }
+
+  .subject-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+  .subject-name { font-weight: 600; font-size: 1rem; margin-bottom: 0.3rem; }
+  .subject-count { font-size: 0.8rem; color: var(--muted); }
+
+  .lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .lesson-card {
+    background: var(--card-bg);
+    border: 1px solid var(--cream);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(0,0,0,0.1); }
+
+  .lesson-thumb {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+  .thumb-blue { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+  .thumb-green { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+  .thumb-orange { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+  .thumb-purple { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+
+  .lesson-body { padding: 1.2rem; }
+  .lesson-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .lesson-title { font-weight: 600; font-size: 1rem; line-height: 1.4; margin-bottom: 0.5rem; }
+  .lesson-meta { font-size: 0.8rem; color: var(--muted); display: flex; gap: 1rem; }
+
+  .ad-banner {
+    background: linear-gradient(135deg, var(--ink), #2a251e);
+    color: var(--paper);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    margin: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .ad-banner:hover { transform: scale(1.005); }
+  .ad-banner-text h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .ad-banner-text p { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+  .ad-banner-btn {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 0.75rem 1.8rem;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1.5px solid var(--cream);
+    border-radius: 100px;
+    padding: 0.75rem 1.5rem;
+    gap: 0.8rem;
+    max-width: 500px;
+    margin-bottom: 3rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-bar:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,146,42,0.12); }
+  .search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 0.95rem;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+  }
+  .search-bar input::placeholder { color: var(--muted); }
+  .search-icon { color: var(--muted); font-size: 1.1rem; }
+
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 2.5rem 5%;
+    font-size: 0.85rem;
+    margin-top: 4rem;
+  }
+  footer strong { color: rgba(255,255,255,0.9); }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left { animation: fadeUp 0.6s ease 0.1s both; }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 3rem 5%; }
+    .hero-visual { display: none; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Study<span>Hub</span></div>
+  <div class="nav-links">
+    <a href="#">Subjects</a>
+    <a href="#">Past Questions</a>
+    <a href="#">Tutorials</a>
+    <a href="#">JAMB Prep</a>
+    <a href="#" class="nav-cta">Get Started Free</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">🎓 Free Online Learning Platform</div>
+    <h1>Study smarter,<br><em>score higher</em></h1>
+    <p>Access thousands of lessons, past questions, and study notes — all in one place. Built for students who want real results.</p>
+    <div class="hero-actions">
+      <button class="btn-primary">Start Learning Free</button>
+      <button class="btn-ghost">Browse Subjects</button>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-num">12,000+</div>
+        <div class="stat-label">Practice Questions</div>
+        <div class="stat-desc">Covering JAMB, WAEC, NECO and university-level subjects.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">240+</div>
+        <div class="stat-label">Topics Covered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">Free</div>
+        <div class="stat-label">Always</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" placeholder="Search topics, subjects, past questions…">
+  </div>
+
+  <div class="section-header">
+    <h2 class="section-title">Browse Subjects</h2>
+    <a href="#" class="see-all">See all →</a>
+  </div>
+  <div class="subjects-grid fade-in">
+    <a class="subject-card" href="#">
+      <div class="subject-icon">🔢</div>
+      <div class="subject-name">Mathematics</div>
+      <div class="subject-count">1,840 questions</div>
+    </a>
+    <a class="subject-card" href="#">
+      <div class="subject-icon">⚗️</div>
+      <div class="subject-name">Chemistry</div>
+      <div class="subject-count">1,210 questions</div>
+    </a>
+    <a class="subject-card" href="#">
+      <div class="subject-icon">🧬</div>
+      <div class="subject-name">Biology</div>
+      <div class="subject-count">980 questions</div>
+    </a>
+    <a class="subject-card" href="#">
+      <div class="subject-icon">⚡</div>
+      <div class="subject-name">Physics</div>
+      <div class="subject-count">1,050 questions</div>
+    </a>
+    <a class="subject-card" href="#">
+      <div class="subject-icon">📖</div>
+      <div class="subject-name">English</div>
+      <div class="subject-count">760 questions</div>
+    </a>
+    <a class="subject-card" href="#">
+      <div class="subject-icon">🌍</div>
+      <div class="subject-name">Geography</div>
+      <div class="subject-count">530 questions</div>
+    </a>
+    <a class="subject-card" href="#">
+      <div class="subject-icon">💰</div>
+      <div class="subject-name">Economics</div>
+      <div class="subject-count">620 questions</div>
+    </a>
+    <a class="subject-card" href="#">
+      <div class="subject-icon">🏛️</div>
+      <div class="subject-name">Government</div>
+      <div class="subject-count">490 questions</div>
+    </a>
+  </div>
+
+  <div class="ad-banner">
+    <div class="ad-banner-text">
+      <h3>🎯 JAMB 2025 Prep Pack</h3>
+      <p>Get 5,000+ past questions with detailed answers — start practicing today.</p>
+    </div>
+    <button class="ad-banner-btn">Start Practicing</button>
+  </div>
+
+  <div class="section-header" style="margin-top:3rem">
+    <h2 class="section-title">Featured Lessons</h2>
+    <a href="#" class="see-all">See all →</a>
+  </div>
+  <div class="lessons-grid fade-in" style="animation-delay:0.2s">
+    <a class="lesson-card" href="#">
+      <div class="lesson-thumb thumb-blue">📐</div>
+      <div class="lesson-body">
+        <div class="lesson-tag">Mathematics</div>
+        <div class="lesson-title">Quadratic Equations — Full Breakdown</div>
+        <div class="lesson-meta"><span>⏱ 18 min</span><span>⭐ 4.9</span></div>
+      </div>
+    </a>
+    <a class="lesson-card" href="#">
+      <div class="lesson-thumb thumb-green">🧬</div>
+      <div class="lesson-body">
+        <div class="lesson-tag">Biology</div>
+        <div class="lesson-title">Cell Division: Mitosis vs Meiosis</div>
+        <div class="lesson-meta"><span>⏱ 22 min</span><span>⭐ 4.8</span></div>
+      </div>
+    </a>
+    <a class="lesson-card" href="#">
+      <div class="lesson-thumb thumb-orange">⚗️</div>
+      <div class="lesson-body">
+        <div class="lesson-tag">Chemistry</div>
+        <div class="lesson-title">Periodic Table: Groups & Periods</div>
+        <div class="lesson-meta"><span>⏱ 15 min</span><span>⭐ 4.7</span></div>
+      </div>
+    </a>
+    <a class="lesson-card" href="#">
+      <div class="lesson-thumb thumb-purple">⚡</div>
+      <div class="lesson-body">
+        <div class="lesson-tag">Physics</div>
+        <div class="lesson-title">Waves & Vibrations Explained Simply</div>
+        <div class="lesson-meta"><span>⏱ 20 min</span><span>⭐ 4.9</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <strong>StudyHub</strong> — Free Learning for Everyone · © 2025 StudyHub
+</footer>
+
+<!-- ADSTERRA POPUNDER AD -->
+<script src="https://pl29146743.profitablecpmratenetwork.com/5b/53/af/5b53aff4b55926b701dc92b32a3595f8.js"></script>
+
+</body>
+  </html>
+    
