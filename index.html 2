@@ -1,0 +1,167 @@
+<?php
+/**
+ * SaveTT - PHP Proxy
+ * Handles TikTok API calls and video/audio downloads server-side.
+ * Place this file in the SAME folder as index.html on your server.
+ */
+
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+
+$action = $_GET['action'] ?? '';
+
+// ── ACTION: FETCH VIDEO INFO ──────────────────────────────────────────────────
+if ($action === 'fetch') {
+    $url = trim($_GET['url'] ?? '');
+
+    if (empty($url)) {
+        echo json_encode(['success' => false, 'error' => 'No URL provided.']);
+        exit;
+    }
+
+    if (strpos($url, 'tiktok.com') === false && strpos($url, 'vm.tiktok.com') === false) {
+        echo json_encode(['success' => false, 'error' => 'Not a valid TikTok URL.']);
+        exit;
+    }
+
+    // Call tikwm.com API (free, no key needed)
+    $apiUrl = 'https://www.tikwm.com/api/?url=' . urlencode($url) . '&count=12&cursor=0&web=1&hd=1';
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $apiUrl,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT        => 20,
+        CURLOPT_USERAGENT      => 'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 Chrome/115 Mobile Safari/537.36',
+        CURLOPT_SSL_VERIFYPEER => false,
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr  = curl_error($ch);
+    curl_close($ch);
+
+    if ($curlErr || $httpCode !== 200) {
+        echo json_encode(['success' => false, 'error' => 'Could not reach TikTok API. Try again.']);
+        exit;
+    }
+
+    $data = json_decode($response, true);
+
+    if (!$data || ($data['code'] ?? -1) !== 0 || empty($data['data'])) {
+        $msg = $data['msg'] ?? 'Failed to fetch video info.';
+        echo json_encode(['success' => false, 'error' => $msg]);
+        exit;
+    }
+
+    $v = $data['data'];
+
+    echo json_encode([
+        'success'  => true,
+        'title'    => $v['title']              ?? 'TikTok Video',
+        'author'   => $v['author']['nickname'] ?? 'Unknown',
+        'avatar'   => $v['author']['avatar']   ?? '',
+        'cover'    => $v['cover']              ?? '',
+        'duration' => intval($v['duration']    ?? 0),
+        'plays'    => intval($v['play_count']  ?? 0),
+        'likes'    => intval($v['digg_count']  ?? 0),
+        'comments' => intval($v['comment_count'] ?? 0),
+        'shares'   => intval($v['share_count'] ?? 0),
+        'nowm'     => $v['play']               ?? '',   // no watermark MP4
+        'wm'       => $v['wmplay']             ?? '',   // watermark MP4
+        'audio'    => $v['music']              ?? '',   // MP3 audio
+        'hd'       => $v['hdplay']             ?? '',   // HD MP4 if available
+    ]);
+    exit;
+}
+
+// ── ACTION: DOWNLOAD (proxy the file through server) ─────────────────────────
+if ($action === 'download') {
+    $fileUrl  = trim($_GET['file'] ?? '');
+    $type     = trim($_GET['type'] ?? 'mp4');  // mp4 or mp3
+    $filename = 'savett_' . time() . '.' . ($type === 'mp3' ? 'mp3' : 'mp4');
+
+    if (empty($fileUrl) || strpos($fileUrl, 'http') !== 0) {
+        http_response_code(400);
+        echo 'Invalid file URL.';
+        exit;
+    }
+
+    // Only allow tikwm CDN domains for safety
+    $allowed = ['tikwm.com', 'tiktok.com', 'tiktokcdn.com', 'muscdn.com', 'akamaized.net'];
+    $host = parse_url($fileUrl, PHP_URL_HOST);
+    $allowed_host = false;
+    foreach ($allowed as $d) {
+        if ($host && (str_ends_with($host, $d) || $host === $d)) {
+            $allowed_host = true; break;
+        }
+    }
+    if (!$allowed_host) {
+        http_response_code(403);
+        echo 'Domain not allowed.';
+        exit;
+    }
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $fileUrl,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT        => 60,
+        CURLOPT_USERAGENT      => 'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 Chrome/115 Mobile Safari/537.36',
+        CURLOPT_SSL_VERIFYPEER => false,
+    ]);
+    $fileData = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if (!$fileData || $httpCode !== 200) {
+        http_response_code(502);
+        echo 'Could not fetch file from source.';
+        exit;
+    }
+
+    $mime = ($type === 'mp3') ? 'audio/mpeg' : 'video/mp4';
+
+    header('Content-Type: ' . $mime);
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Content-Length: ' . strlen($fileData));
+    header('Cache-Control: no-cache');
+    echo $fileData;
+    exit;
+}
+
+// ── ACTION: IMAGE PROXY (for thumbnails — avoids CORS on img src) ────────────
+if ($action === 'img') {
+    $imgUrl = trim($_GET['url'] ?? '');
+
+    if (empty($imgUrl) || strpos($imgUrl, 'http') !== 0) {
+        http_response_code(400); exit;
+    }
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $imgUrl,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_USERAGENT      => 'Mozilla/5.0',
+        CURLOPT_SSL_VERIFYPEER => false,
+    ]);
+    $img      = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if (!$img || $httpCode !== 200) {
+        http_response_code(404); exit;
+    }
+
+    header('Content-Type: image/jpeg');
+    header('Cache-Control: public, max-age=86400');
+    echo $img;
+    exit;
+}
+
+// Unknown action
+echo json_encode(['success' => false, 'error' => 'Unknown action.']);
+exit;

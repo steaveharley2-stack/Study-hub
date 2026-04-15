@@ -1,528 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StudyHub – Learn Smarter</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #0f0e0b;
-    --paper: #f5f0e8;
-    --cream: #ede8dc;
-    --gold: #c9922a;
-    --gold-light: #e8b84b;
-    --rust: #b94a2c;
-    --sage: #4a7c59;
-    --muted: #7a7060;
-    --card-bg: #ffffff;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SaveTT - Download TikTok Videos Without Watermark</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --yellow: #FFD700;
+      --yellow-light: #FFF9C4;
+      --yellow-dark: #E6B800;
+      --black: #111111;
+      --white: #FFFFFF;
+      --gray: #F5F5F5;
+      --muted: #888888;
+      --shadow: 0 4px 24px rgba(0,0,0,0.10);
+      --radius: 14px;
+    }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+    }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.4;
-  }
+    /* ── NAV ─────────────────────────────────── */
+    nav {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      background: var(--white);
+      border-bottom: 2.5px solid var(--yellow);
+      position: sticky; top: 0; z-index: 200;
+      box-shadow: 0 2px 12px rgba(255,215,0,0.15);
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.5rem; font-weight: 900;
+      color: var(--black); text-decoration: none;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--yellow); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.2rem; color: var(--black);
+      box-shadow: 0 2px 8px rgba(255,215,0,0.4);
+    }
+    .logo em { color: var(--yellow-dark); font-style: normal; }
+    nav ul { list-style: none; display: flex; gap: 22px; }
+    nav ul a { text-decoration: none; font-size: 0.88rem; font-weight: 600; color: var(--black); transition: color .2s; }
+    nav ul a:hover { color: var(--yellow-dark); }
 
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.2rem 5%;
-    border-bottom: 1.5px solid var(--cream);
-    background: var(--paper);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      background: linear-gradient(150deg, #FFFDE7 0%, #FFF9C4 45%, #fff 100%);
+      padding: 56px 24px 48px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before, .hero::after {
+      content: ''; position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    .hero::before {
+      width: 340px; height: 340px;
+      background: radial-gradient(circle, #FFD70030 0%, transparent 70%);
+      top: -80px; right: -80px;
+    }
+    .hero::after {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, #FFD70025 0%, transparent 70%);
+      bottom: -60px; left: -40px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 8vw, 3.4rem);
+      font-weight: 900; line-height: 1.12;
+      color: var(--black); margin-bottom: 14px;
+      position: relative;
+    }
+    .hero h1 em { color: var(--yellow-dark); font-style: normal; }
+    .hero p {
+      font-size: 1rem; color: #555;
+      max-width: 460px; margin: 0 auto 30px;
+      font-family: 'Inter', sans-serif; line-height: 1.6;
+    }
 
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: var(--ink);
-    letter-spacing: -0.5px;
-  }
-  .logo span { color: var(--gold); }
+    /* ── SEARCH BOX ──────────────────────────── */
+    .search-wrap { max-width: 580px; margin: 0 auto; position: relative; z-index: 1; }
+    .input-row {
+      display: flex;
+      background: var(--white);
+      border: 2.5px solid var(--yellow);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 6px 32px rgba(255,215,0,0.28);
+    }
+    .input-row input {
+      flex: 1; border: none; outline: none;
+      padding: 16px 18px;
+      font-size: 0.95rem; font-family: 'Inter', sans-serif;
+      background: transparent; color: var(--black);
+    }
+    .input-row input::placeholder { color: #bbb; }
+    .paste-btn {
+      background: var(--yellow-light);
+      border: none; border-left: 2px solid var(--yellow);
+      padding: 0 18px; cursor: pointer;
+      font-size: 0.82rem; font-weight: 700; color: var(--black);
+      display: flex; align-items: center; gap: 6px;
+      transition: background .2s; white-space: nowrap;
+    }
+    .paste-btn:hover { background: var(--yellow); }
+    .search-btn {
+      display: block; width: 100%; margin-top: 12px;
+      padding: 16px; background: var(--yellow);
+      border: none; border-radius: var(--radius);
+      font-size: 1rem; font-weight: 800; cursor: pointer;
+      color: var(--black); letter-spacing: .3px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 18px rgba(255,215,0,0.45);
+    }
+    .search-btn:hover:not(:disabled) { background: var(--yellow-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,215,0,0.5); }
+    .search-btn:active:not(:disabled) { transform: translateY(0); }
+    .search-btn:disabled { opacity: .6; cursor: not-allowed; }
 
-  .nav-links { display: flex; gap: 2rem; }
-  .nav-links a {
-    text-decoration: none;
-    color: var(--muted);
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--ink); }
+    /* ── RESULT ──────────────────────────────── */
+    #result { max-width: 580px; margin: 28px auto 0; padding: 0 24px; }
 
-  .nav-cta {
-    background: var(--ink);
-    color: var(--paper) !important;
-    padding: 0.55rem 1.3rem;
-    border-radius: 100px;
-    font-size: 0.85rem !important;
-    transition: background 0.2s !important;
-  }
-  .nav-cta:hover { background: var(--gold) !important; color: var(--ink) !important; }
+    .result-card {
+      background: var(--white);
+      border: 2px solid var(--yellow);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      animation: fadeUp .4s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
-    padding: 5rem 5% 4rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+    .result-top {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 18px; background: #FFFDE7;
+      border-bottom: 1.5px solid #FFE082;
+    }
+    .result-thumb {
+      width: 80px; height: 80px; border-radius: 10px;
+      object-fit: cover; border: 2px solid var(--yellow);
+      flex-shrink: 0; background: #eee;
+    }
+    .result-info { flex: 1; min-width: 0; }
+    .result-info h3 {
+      font-size: 0.95rem; font-weight: 700;
+      margin-bottom: 4px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .result-info .dur { font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; }
+    .stats { display: flex; gap: 10px; flex-wrap: wrap; }
+    .stat { font-size: 0.77rem; color: #555; display: flex; align-items: center; gap: 3px; }
 
-  .hero-eyebrow {
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--gold);
-    margin-bottom: 1rem;
-  }
+    .result-body { padding: 16px 18px; }
+    .video-title {
+      font-size: 0.82rem; color: #555;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 14px; line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .format-row {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    }
+    .format-row label { font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+    .format-row select {
+      border: 2px solid var(--yellow); border-radius: 8px;
+      padding: 8px 12px; font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem; background: var(--white);
+      cursor: pointer; outline: none; flex: 1;
+    }
+    .action-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      flex: 1; min-width: 110px; padding: 12px 10px;
+      border: none; border-radius: 10px;
+      font-size: 0.88rem; font-weight: 700; cursor: pointer;
+      transition: .2s; display: flex;
+      align-items: center; justify-content: center; gap: 6px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .btn-dl { background: var(--yellow); color: var(--black); box-shadow: 0 3px 12px rgba(255,215,0,0.35); }
+    .btn-dl:hover { background: var(--yellow-dark); }
+    .btn-copy { background: var(--gray); color: var(--black); border: 1.5px solid #ddd; }
+    .btn-copy:hover { background: #e5e5e5; }
+    .btn-reset {
+      width: 100%; margin-top: 10px;
+      background: transparent; border: 2px solid var(--yellow); color: var(--black);
+    }
+    .btn-reset:hover { background: var(--yellow-light); }
 
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.8rem, 5vw, 4.5rem);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -1.5px;
-    margin-bottom: 1.5rem;
-  }
+    /* ── MESSAGES ────────────────────────────── */
+    .msg {
+      border-radius: 10px; padding: 14px 16px;
+      font-size: 0.88rem; margin-top: 16px;
+      animation: fadeUp .3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .msg-error { background: #fff3cd; border: 1.5px solid #ffc107; color: #856404; }
+    .msg-success { background: #d4edda; border: 1.5px solid #28a745; color: #155724; }
+    .msg-info { background: #e8f4fd; border: 1.5px solid #4dabf7; color: #1864ab; }
 
-  .hero h1 em {
-    font-style: italic;
-    color: var(--rust);
-  }
+    /* ── SPINNER ─────────────────────────────── */
+    .spinner {
+      display: inline-block; width: 17px; height: 17px;
+      border: 3px solid rgba(0,0,0,.18);
+      border-top-color: var(--black); border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-  .hero p {
-    font-size: 1.05rem;
-    color: var(--muted);
-    line-height: 1.7;
-    max-width: 420px;
-    margin-bottom: 2rem;
-  }
+    /* ── PROGRESS BAR ────────────────────────── */
+    .dl-progress {
+      height: 6px; background: #eee;
+      border-radius: 10px; margin-top: 12px; overflow: hidden;
+      display: none;
+    }
+    .dl-progress-bar {
+      height: 100%; background: var(--yellow);
+      border-radius: 10px; width: 0%;
+      transition: width .3s;
+      animation: progressPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes progressPulse {
+      0%, 100% { opacity: 1; } 50% { opacity: .6; }
+    }
 
-  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+    /* ── HOW TO ──────────────────────────────── */
+    .how-to {
+      max-width: 620px; margin: 52px auto 0;
+      padding: 0 24px 56px;
+    }
+    .section-title {
+      text-align: center; font-size: 1.5rem; font-weight: 800;
+      margin-bottom: 26px; color: var(--black);
+    }
+    .section-title em { color: var(--yellow-dark); font-style: normal; }
+    .steps { display: flex; flex-direction: column; gap: 14px; }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--gray); border-radius: 12px; padding: 16px;
+      border-left: 4px solid var(--yellow);
+    }
+    .step-num {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: var(--yellow); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1rem;
+    }
+    .step-text h4 { font-size: 0.92rem; font-weight: 700; margin-bottom: 3px; }
+    .step-text p { font-size: 0.8rem; color: #666; font-family: 'Inter', sans-serif; line-height: 1.5; }
 
-  .btn-primary {
-    background: var(--ink);
-    color: var(--paper);
-    border: none;
-    padding: 0.9rem 2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    border-radius: 100px;
-    cursor: pointer;
-    transition: transform 0.15s, background 0.2s;
-  }
-  .btn-primary:hover { background: var(--gold); color: var(--ink); transform: translateY(-1px); }
+    /* ── FEATURES ────────────────────────────── */
+    .features { background: #FFFDE7; padding: 44px 24px; text-align: center; }
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px; max-width: 620px; margin: 0 auto;
+    }
+    .feature-item {
+      background: var(--white); border-radius: 12px;
+      padding: 20px 12px; border: 1.5px solid #FFE082;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .feature-item:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255,215,0,0.2); }
+    .fi-icon { font-size: 2rem; margin-bottom: 8px; }
+    .feature-item h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+    .feature-item p { font-size: 0.75rem; color: #888; }
 
-  .btn-ghost {
-    background: transparent;
-    color: var(--ink);
-    border: 1.5px solid var(--ink);
-    padding: 0.9rem 2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    border-radius: 100px;
-    cursor: pointer;
-    transition: transform 0.15s, background 0.2s;
-  }
-  .btn-ghost:hover { background: var(--cream); transform: translateY(-1px); }
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      text-align: center; padding: 20px;
+      font-size: 0.78rem; color: #aaa;
+      border-top: 1px solid #eee;
+    }
+    footer strong { color: var(--black); }
 
-  .hero-visual {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    animation: floatIn 0.8s ease both;
-  }
-
-  @keyframes floatIn {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .stat-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .stat-card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 1.4rem;
-    border: 1px solid var(--cream);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: default;
-  }
-  .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.09); }
-  .stat-card:first-child { grid-column: span 2; background: var(--ink); color: var(--paper); }
-
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.4rem;
-    font-weight: 900;
-    color: var(--gold-light);
-  }
-  .stat-card:not(:first-child) .stat-num { color: var(--ink); }
-  .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
-  .stat-card:first-child .stat-label { color: rgba(255,255,255,0.55); }
-  .stat-card:first-child .stat-desc { font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-top: 0.5rem; line-height: 1.5; }
-
-  .section {
-    padding: 4rem 5%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-
-  .see-all {
-    color: var(--gold);
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 500;
-    border-bottom: 1px solid var(--gold);
-    padding-bottom: 1px;
-    transition: opacity 0.2s;
-  }
-  .see-all:hover { opacity: 0.7; }
-
-  .subjects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.2rem;
-  }
-
-  .subject-card {
-    background: var(--card-bg);
-    border: 1px solid var(--cream);
-    border-radius: 14px;
-    padding: 1.6rem 1.3rem;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  .subject-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.09); border-color: var(--gold); }
-
-  .subject-icon { font-size: 2rem; margin-bottom: 0.8rem; }
-  .subject-name { font-weight: 600; font-size: 1rem; margin-bottom: 0.3rem; }
-  .subject-count { font-size: 0.8rem; color: var(--muted); }
-
-  .lessons-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .lesson-card {
-    background: var(--card-bg);
-    border: 1px solid var(--cream);
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(0,0,0,0.1); }
-
-  .lesson-thumb {
-    height: 140px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-  }
-  .thumb-blue { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
-  .thumb-green { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
-  .thumb-orange { background: linear-gradient(135deg, #fef3c7, #fde68a); }
-  .thumb-purple { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
-
-  .lesson-body { padding: 1.2rem; }
-  .lesson-tag {
-    display: inline-block;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-  }
-  .lesson-title { font-weight: 600; font-size: 1rem; line-height: 1.4; margin-bottom: 0.5rem; }
-  .lesson-meta { font-size: 0.8rem; color: var(--muted); display: flex; gap: 1rem; }
-
-  .ad-banner {
-    background: linear-gradient(135deg, var(--ink), #2a251e);
-    color: var(--paper);
-    border-radius: 16px;
-    padding: 2rem 2.5rem;
-    margin: 2rem 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  .ad-banner:hover { transform: scale(1.005); }
-  .ad-banner-text h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 0.4rem; }
-  .ad-banner-text p { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
-  .ad-banner-btn {
-    background: var(--gold);
-    color: var(--ink);
-    border: none;
-    padding: 0.75rem 1.8rem;
-    border-radius: 100px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    white-space: nowrap;
-    font-family: 'DM Sans', sans-serif;
-    flex-shrink: 0;
-  }
-
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background: var(--card-bg);
-    border: 1.5px solid var(--cream);
-    border-radius: 100px;
-    padding: 0.75rem 1.5rem;
-    gap: 0.8rem;
-    max-width: 500px;
-    margin-bottom: 3rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .search-bar:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,146,42,0.12); }
-  .search-bar input {
-    border: none;
-    outline: none;
-    flex: 1;
-    font-size: 0.95rem;
-    background: transparent;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--ink);
-  }
-  .search-bar input::placeholder { color: var(--muted); }
-  .search-icon { color: var(--muted); font-size: 1.1rem; }
-
-  footer {
-    background: var(--ink);
-    color: rgba(255,255,255,0.6);
-    text-align: center;
-    padding: 2.5rem 5%;
-    font-size: 0.85rem;
-    margin-top: 4rem;
-  }
-  footer strong { color: rgba(255,255,255,0.9); }
-
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.6s ease forwards;
-  }
-  @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-left { animation: fadeUp 0.6s ease 0.1s both; }
-
-  @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; padding: 3rem 5%; }
-    .hero-visual { display: none; }
-    .nav-links { display: none; }
-  }
-</style>
+    /* ── POPUP AD ────────────────────────────── */
+    .ad-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.68); z-index: 9999;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .ad-overlay.active { display: flex; }
+    .ad-box {
+      background: var(--white); border-radius: 20px;
+      max-width: 370px; width: 100%; overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+      animation: popIn .35s cubic-bezier(.34,1.56,.64,1);
+      position: relative;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.78); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .ad-label {
+      position: absolute; top: 10px; left: 14px;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 1.5px; color: rgba(0,0,0,.4);
+    }
+    .ad-header {
+      background: var(--yellow); padding: 16px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ad-header span { font-weight: 800; font-size: 0.95rem; }
+    .ad-close-btn {
+      background: var(--black); color: var(--white);
+      border: none; border-radius: 50%;
+      width: 30px; height: 30px; font-size: 1rem;
+      cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-weight: 700; transition: opacity .2s;
+    }
+    .ad-close-btn:disabled { opacity: .35; cursor: not-allowed; }
+    .ad-body { padding: 26px 22px; text-align: center; }
+    .ad-emoji { font-size: 3.2rem; margin-bottom: 10px; }
+    .ad-countdown {
+      display: inline-block; background: var(--yellow);
+      color: var(--black); font-weight: 800;
+      font-size: 0.78rem; padding: 4px 12px;
+      border-radius: 20px; margin-bottom: 14px;
+    }
+    .ad-body h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+    .ad-body p { font-size: 0.83rem; color: #666; font-family: 'Inter', sans-serif; line-height: 1.5; margin-bottom: 18px; }
+    .ad-cta {
+      display: block; padding: 14px;
+      background: var(--yellow); border: none; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 800; cursor: pointer;
+      color: var(--black); text-decoration: none;
+      transition: background .2s;
+      box-shadow: 0 4px 14px rgba(255,215,0,0.4);
+    }
+    .ad-cta:hover { background: var(--yellow-dark); }
+    .ad-skip {
+      display: block; margin-top: 12px;
+      font-size: 0.78rem; color: #bbb; cursor: pointer;
+    }
+    .ad-skip:hover { color: #777; }
+  </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <div class="logo">Study<span>Hub</span></div>
-  <div class="nav-links">
-    <a href="#">Subjects</a>
-    <a href="#">Past Questions</a>
-    <a href="#">Tutorials</a>
-    <a href="#">JAMB Prep</a>
-    <a href="#" class="nav-cta">Get Started Free</a>
-  </div>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">S</div>
+    Save<em>TT</em>
+  </a>
+  <ul>
+    <li><a href="#how-to">How To</a></li>
+    <li><a href="#features">Features</a></li>
+  </ul>
 </nav>
 
-<div class="hero">
-  <div class="hero-left">
-    <div class="hero-eyebrow">🎓 Free Online Learning Platform</div>
-    <h1>Study smarter,<br><em>score higher</em></h1>
-    <p>Access thousands of lessons, past questions, and study notes — all in one place. Built for students who want real results.</p>
-    <div class="hero-actions">
-      <button class="btn-primary">Start Learning Free</button>
-      <button class="btn-ghost">Browse Subjects</button>
+<!-- HERO + SEARCH -->
+<section class="hero">
+  <h1>TikTok <em>Downloader</em></h1>
+  <p>Download TikTok videos without watermark — free, fast, no sign-up needed.</p>
+
+  <div class="search-wrap">
+    <div class="input-row">
+      <input type="text" id="urlInput" placeholder="Paste a TikTok video URL here..." autocomplete="off" />
+      <button class="paste-btn" onclick="pasteURL()">📋 Paste</button>
+    </div>
+    <button class="search-btn" id="searchBtn" onclick="fetchVideo()">
+      🔍 Search
+    </button>
+  </div>
+
+  <div id="result"></div>
+</section>
+
+<!-- HOW TO -->
+<section class="how-to" id="how-to">
+  <h2 class="section-title">How To <em>Download</em></h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Copy the TikTok Link</h4>
+        <p>Open TikTok, tap Share on any video, then tap "Copy Link".</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Paste URL Above</h4>
+        <p>Tap the Paste button or long-press the input to paste your copied link.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Download Without Watermark</h4>
+        <p>Tap Search, choose your format (MP4 or MP3), then tap Download!</p>
+      </div>
     </div>
   </div>
-  <div class="hero-visual">
-    <div class="stat-cards">
-      <div class="stat-card">
-        <div class="stat-num">12,000+</div>
-        <div class="stat-label">Practice Questions</div>
-        <div class="stat-desc">Covering JAMB, WAEC, NECO and university-level subjects.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">240+</div>
-        <div class="stat-label">Topics Covered</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">Free</div>
-        <div class="stat-label">Always</div>
-      </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <h2 class="section-title">Why <em>SaveTT?</em></h2>
+  <div class="feature-grid">
+    <div class="feature-item">
+      <div class="fi-icon">🚫</div>
+      <h4>No Watermark</h4>
+      <p>Clean MP4 downloads every time</p>
+    </div>
+    <div class="feature-item">
+      <div class="fi-icon">⚡</div>
+      <h4>Fast & Free</h4>
+      <p>No account or payment needed</p>
+    </div>
+    <div class="feature-item">
+      <div class="fi-icon">📱</div>
+      <h4>All Devices</h4>
+      <p>Works on Android, iOS & PC</p>
+    </div>
+    <div class="feature-item">
+      <div class="fi-icon">🎵</div>
+      <h4>MP3 Audio</h4>
+      <p>Extract audio from any video</p>
     </div>
   </div>
-</div>
+</section>
 
-<div class="section">
-  <div class="search-bar">
-    <span class="search-icon">🔍</span>
-    <input type="text" placeholder="Search topics, subjects, past questions…">
-  </div>
-
-  <div class="section-header">
-    <h2 class="section-title">Browse Subjects</h2>
-    <a href="#" class="see-all">See all →</a>
-  </div>
-  <div class="subjects-grid fade-in">
-    <a class="subject-card" href="#">
-      <div class="subject-icon">🔢</div>
-      <div class="subject-name">Mathematics</div>
-      <div class="subject-count">1,840 questions</div>
-    </a>
-    <a class="subject-card" href="#">
-      <div class="subject-icon">⚗️</div>
-      <div class="subject-name">Chemistry</div>
-      <div class="subject-count">1,210 questions</div>
-    </a>
-    <a class="subject-card" href="#">
-      <div class="subject-icon">🧬</div>
-      <div class="subject-name">Biology</div>
-      <div class="subject-count">980 questions</div>
-    </a>
-    <a class="subject-card" href="#">
-      <div class="subject-icon">⚡</div>
-      <div class="subject-name">Physics</div>
-      <div class="subject-count">1,050 questions</div>
-    </a>
-    <a class="subject-card" href="#">
-      <div class="subject-icon">📖</div>
-      <div class="subject-name">English</div>
-      <div class="subject-count">760 questions</div>
-    </a>
-    <a class="subject-card" href="#">
-      <div class="subject-icon">🌍</div>
-      <div class="subject-name">Geography</div>
-      <div class="subject-count">530 questions</div>
-    </a>
-    <a class="subject-card" href="#">
-      <div class="subject-icon">💰</div>
-      <div class="subject-name">Economics</div>
-      <div class="subject-count">620 questions</div>
-    </a>
-    <a class="subject-card" href="#">
-      <div class="subject-icon">🏛️</div>
-      <div class="subject-name">Government</div>
-      <div class="subject-count">490 questions</div>
-    </a>
-  </div>
-
-  <div class="ad-banner">
-    <div class="ad-banner-text">
-      <h3>🎯 JAMB 2025 Prep Pack</h3>
-      <p>Get 5,000+ past questions with detailed answers — start practicing today.</p>
-    </div>
-    <button class="ad-banner-btn">Start Practicing</button>
-  </div>
-
-  <div class="section-header" style="margin-top:3rem">
-    <h2 class="section-title">Featured Lessons</h2>
-    <a href="#" class="see-all">See all →</a>
-  </div>
-  <div class="lessons-grid fade-in" style="animation-delay:0.2s">
-    <a class="lesson-card" href="#">
-      <div class="lesson-thumb thumb-blue">📐</div>
-      <div class="lesson-body">
-        <div class="lesson-tag">Mathematics</div>
-        <div class="lesson-title">Quadratic Equations — Full Breakdown</div>
-        <div class="lesson-meta"><span>⏱ 18 min</span><span>⭐ 4.9</span></div>
-      </div>
-    </a>
-    <a class="lesson-card" href="#">
-      <div class="lesson-thumb thumb-green">🧬</div>
-      <div class="lesson-body">
-        <div class="lesson-tag">Biology</div>
-        <div class="lesson-title">Cell Division: Mitosis vs Meiosis</div>
-        <div class="lesson-meta"><span>⏱ 22 min</span><span>⭐ 4.8</span></div>
-      </div>
-    </a>
-    <a class="lesson-card" href="#">
-      <div class="lesson-thumb thumb-orange">⚗️</div>
-      <div class="lesson-body">
-        <div class="lesson-tag">Chemistry</div>
-        <div class="lesson-title">Periodic Table: Groups & Periods</div>
-        <div class="lesson-meta"><span>⏱ 15 min</span><span>⭐ 4.7</span></div>
-      </div>
-    </a>
-    <a class="lesson-card" href="#">
-      <div class="lesson-thumb thumb-purple">⚡</div>
-      <div class="lesson-body">
-        <div class="lesson-tag">Physics</div>
-        <div class="lesson-title">Waves & Vibrations Explained Simply</div>
-        <div class="lesson-meta"><span>⏱ 20 min</span><span>⭐ 4.9</span></div>
-      </div>
-    </a>
-  </div>
-</div>
-
+<!-- FOOTER -->
 <footer>
-  <strong>StudyHub</strong> — Free Learning for Everyone · © 2025 StudyHub
+  <p>© 2025 <strong>SaveTT</strong> — Not affiliated with TikTok. For personal use only.</p>
 </footer>
 
-<!-- ADSTERRA POPUNDER AD -->
-<script src="https://pl29146743.profitablecpmratenetwork.com/5b/53/af/5b53aff4b55926b701dc92b32a3595f8.js"></script>
+<!-- POPUP AD -->
+<div class="ad-overlay" id="adOverlay">
+  <div class="ad-box">
+    <span class="ad-label">ADVERTISEMENT</span>
+    <div class="ad-header">
+      <span>🎯 Special Offer</span>
+      <button class="ad-close-btn" id="adCloseBtn" onclick="closeAd()" disabled>✕</button>
+    </div>
+    <div class="ad-body">
+      <div class="ad-emoji">🚀</div>
+      <div class="ad-countdown" id="adCountdown">Close in <span id="adSecs">5</span>s</div>
+      <h3>Enjoy SaveTT? Upgrade Free!</h3>
+      <p>Get HD downloads, batch video saving, and zero ads — free for a limited time this week only.</p>
+      <!-- ✏️ Replace href="#" with your affiliate / ad link -->
+      <a href="#" class="ad-cta" target="_blank" rel="noopener">Claim Free Upgrade →</a>
+      <span class="ad-skip" onclick="closeAd()">No thanks, skip</span>
+    </div>
+  </div>
+</div>
 
-</body>
-  </html>
-    
+<script>
+  // ═══════════════════════════════════════
+  // CONFIGURATION — edit this path if needed
+  // ═══════════════════════════════════════
+  const PROXY = 'proxy.php'; // must be in same folder as index.html
+
+  // ═══════════════════════════════════════
+  // POPUP AD
+  // ═══════════════════════════════════════
+  let adTimer = null;
+
+  function showAd() {
+    const overlay  = document.getElementById('adOverlay');
+    const closeBtn = document.getElementById('adCloseBtn');
+    const secsEl   = document.getElementById('adSecs');
+    const badgeEl  = document.getElementById('adCountdown');
+    overlay.classList.add('active');
+    closeBtn.disabled = true;
+    let secs = 5;
+    adTimer = setInterval(() => {
+      secs--;
+      secsEl.textContent = secs;
+      if (secs <= 0) {
+        clearInterval(adTimer);
+        closeBtn.disabled = false;
+        badgeEl.textContent = '✓ You can close now';
+      }
+    }, 1000);
+  }
+
+  function closeAd() {
+    document.getElementById('adOverlay').classList.remove('active');
+    clearInterval(adTimer);
+  }
+
+  // Show ad 3 seconds after page load
+  window.addEventListener('load', () => setTimeout(showAd, 3000));
+
+  // ═══════════════════════════════════════
+  // PASTE
+  // ═══════════════════════════════════════
+  async function pasteURL() {
+    try {
+      const text = await navigator.clipboard.readText();
+      document.getElementById('urlInput').value = text;
+    } catch {
+      // Fallback: focus the input so the user can paste manually
+      document.getElementById('urlInput').focus();
+      showMsg('result', 'Long-press the input box and tap Paste.', 'info');
+    }
+  }
+
+  // ═══════════════════════════════════════
+  // FETCH VIDEO INFO (via proxy.php)
+  // ═══════════════════════════════════════
+  let videoData = null; // store fetched data for download
+
+  async function fetchVideo() {
+    const input   = document.getElementById('urlInput');
+    const url     = input.value.trim();
+    const resultDiv = document.getElementById('result');
+    const btn     = document.getElementById('searchBtn');
+
+    if (!url) {
+      showMsg('result', '⚠️ Please paste a TikTok video URL first.', 'error');
+      return;
+    }
+    if (!url.includes('tiktok.com')) {
+      showMsg('result', '⚠️ That doesn\'t look like a TikTok URL. Please try again.', 'error');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Fetching…';
+    resultDiv.innerHTML = '';
+    videoData = null;
+
+    try {
+      const resp = await fetch(`${PROXY}?action=fetch&url=${encodeURIComponent(url)}`);
+      if (!resp.ok) throw new Error(`Server error: ${resp.status}`);
+      const data = await resp.json();
+
+      if (!data.success) throw new Error(data.error || 'Could not fetch video.');
+
+      videoData = data;
+      renderResult(data);
+
+    } catch (err) {
+      showMsg('result', `❌ ${err.message}`, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '🔍 Search';
+    }
+  }
+
+  // ═══════════════════════════════════════
+  // RENDER RESULT CARD
+  // ═══════════════════════════════════════
+  function renderResult(d) {
+    con
